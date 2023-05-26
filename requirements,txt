@@ -1,6 +1,6 @@
 re
 string
-nltk
+nltk==3.5
 Sastrawi
 tensorflow
 keras
