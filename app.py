@@ -8,23 +8,23 @@ nltk.download('punkt')
 
 from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
 
+import pandas as pd
+import numpy as np
+
 import tensorflow as tf
 from tensorflow import keras
+from tensorflow.keras.preprocessing.sequence import pad_sequences
 from keras.layers import *
 from keras.models import *
 from keras import backend as K
 
-import requests
 import streamlit as st
+import pickle
 
 # title
 st.title("Public Report Classification")
 
 # load model, set cache to prevent reloading
-@st.cache(allow_output_mutation=True)
-
-dependencies = {'Att': Att()}
-
 class Att(Layer):
     def __init__(self, **kwargs):
         super(Att,self).__init__(**kwargs)
@@ -48,14 +48,18 @@ class Att(Layer):
         # Compute the context vector
         context = x * alpha
         return K.sum(context, axis=1)
-
+    
+@st.cache(allow_output_mutation=True)
 def load_model():
-    model=tf.keras.models.load_model('models/best_model.h5',
-                                     custom_objects=dependencies)
+    dependencies = {'Att': Att()}
+    model = tf.keras.models.load_model('models/best_model.h5',
+                                       custom_objects=dependencies)
     return model
 
 with st.spinner("Loading Model...."):
-    model=load_model()
+    model = load_model()
+    with open('models/tokenizer.pickle', 'rb') as handle:
+        tokenizer = pickle.load(handle)
     
 # 10 categories of reports
 labels_list=['gangguan ketenteraman dan ketertiban', 'jalan', 'jaringan listrik',
@@ -150,8 +154,8 @@ new_report = st.text_input("Apa masalah yang mau dilaporkan?","")
 # predict
 
 try:
-  st.write("Predicting Class...")
-  with st.spinner("Classifying..."):
+  st.write("Memprediksi Kategori...")
+  with st.spinner("Tunggu sebentar..."):
     preprocess_text = preprocess(new_report, verbose=0)
     seq_tweet = tokenizer.texts_to_sequences([preprocess_text])
     deskripsi = pad_sequences(seq_tweet, padding='post',
@@ -161,6 +165,6 @@ try:
     dict_classes = dict(zip(range(len(labels_list)),
                             labels_list))
     pred_class = dict_classes[classes[0]]
-    st.write("Predicted Class:", pred_class)
+    st.write("Prediksi Kategori Laporan:", pred_class)
 except:
   st.write("Ada kesalahan :(")
