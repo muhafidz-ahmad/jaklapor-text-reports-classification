@@ -1,8 +1,7 @@
-re
-string
-nltk==3.0.0
+regex==2022.10.31
+nltk==3.8.1
 Sastrawi
-tensorflow
-keras
-pandas
-numpy
+tensorflow==2.12.0
+keras==2.12.0
+pandas==1.5.3
+numpy==1.22.4
