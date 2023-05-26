@@ -6,6 +6,8 @@ from nltk.corpus import stopwords
 nltk.download('stopwords')
 nltk.download('punkt')
 
+from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
+
 import tensorflow as tf
 from tensorflow import keras
 from keras.layers import *
