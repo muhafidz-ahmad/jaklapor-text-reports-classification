@@ -68,7 +68,8 @@ new_report = st.text_area("Ada masalah apa?","")
 # predict
 dict_classes = dict(zip(range(len(labels_list)),
                               labels_list))
-if st.button("Prediksi", use_container_width=True):
+
+if st.button("Prediksi Kategori Laporan", use_container_width=True):
   #try:
     with st.spinner("Tunggu sebentar, sedang memprediksi kategori laporan..."):
       preprocess_text = text_preprocessing.preprocess(new_report, stem=True)
@@ -79,7 +80,6 @@ if st.button("Prediksi", use_container_width=True):
       classes = np.argmax(prediction, axis = 1)
       pred_class = dict_classes[classes[0]]
       
-      st.write("**Prediksi Kategori Laporan:**")
       df = pd.Series(prediction[0].round(decimals=5) * 100, 
                      index=dict_classes.values()).sort_values(ascending=False)
       df = df.to_frame().reset_index()
@@ -94,8 +94,6 @@ if st.button("Prediksi", use_container_width=True):
 
       st.divider() # draw a horizontal line
 
-      # st.dataframe(df, use_container_width=True)
-      st.bar_chart(df, x='probability', y='prediksi_kategori_laporan',
-                   use_container_width=True)
+      st.dataframe(df, use_container_width=True)
   #except:
     #st.write("Ada kesalahan :(")
