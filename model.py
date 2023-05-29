@@ -37,14 +37,13 @@ class Att(Layer):
         return K.sum(context, axis=1)
       
 def load_model():
-    with st.spinner("Loading Model...."):
-        dependencies = {'Att': Att()}
-        model = tf.keras.models.load_model(
-          'models/best_model.h5',
-          custom_objects=dependencies
-        )
-        with open('models/tokenizer.pickle', 'rb') as handle:
-            tokenizer = pickle.load(handle)
+    dependencies = {'Att': Att()}
+    model = tf.keras.models.load_model(
+        'models/best_model.h5',
+        custom_objects=dependencies
+    )
+    with open('models/tokenizer.pickle', 'rb') as handle:
+        tokenizer = pickle.load(handle)
     return [model, tokenizer]
   
 def predict(model, text):
