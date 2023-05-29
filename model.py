@@ -54,6 +54,8 @@ def predict(model, text):
                  'parkir liar', 'pelayanan perhubungan', 'pohon',
                  'saluran air, kali/sungai', 'sampah', 'tata ruang dan bangunan',
                  'transportasi publik']
+    dict_classes = dict(zip(range(len(labels_list)),
+                            labels_list))
     
     # text preprocessing, include tokenizing
     preprocess_text = text_preprocessing.preprocess(text, stem=True)  # text_preprocessing
