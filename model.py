@@ -50,14 +50,23 @@ def load_model():
 def predict(model, text):
     # model[0] = model machine learning
     # model[1] = tokenizer
+    labels_list=['gangguan ketenteraman dan ketertiban', 'jalan', 'jaringan listrik',
+                 'parkir liar', 'pelayanan perhubungan', 'pohon',
+                 'saluran air, kali/sungai', 'sampah', 'tata ruang dan bangunan',
+                 'transportasi publik']
+    
+    # text preprocessing, include tokenizing
     preprocess_text = text_preprocessing.preprocess(text, stem=True)  # text_preprocessing
     text = model[1].texts_to_sequences([preprocess_text])   # tokenizer
     text = pad_sequences(text, padding='post',
                          maxlen=100, truncating='post')
+    
+    # predict the text
     prediction = model[0].predict(text, verbose=0)
     classes = np.argmax(prediction, axis = 1)
     pred_class = dict_classes[classes[0]]
     
+    # create a table of predicted categories
     df = pd.Series(prediction[0].round(decimals=5) * 100, 
                    index=dict_classes.values()).sort_values(ascending=False)
     df = df.to_frame().reset_index()
