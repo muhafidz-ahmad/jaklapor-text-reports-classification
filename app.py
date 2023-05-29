@@ -90,7 +90,7 @@ if st.button("Prediksi", use_container_width=True):
         if prob < 5:
           break
         pred = cat + " | " + str(round(prob,2)) + "%"
-        st.success(pred, use_container_width=True)
+        st.success(pred)
 
       st.divider() # draw a horizontal line
 
