@@ -6,9 +6,7 @@ import model
 # title
 st.title("Public Report Classification")
 
-# load model, set cache to prevent reloading
-#@st.cache(allow_output_mutation=True)
-@st.cache_resource()
+# load model
 my_model = model.load_model()
 
 # get new report
