@@ -46,14 +46,14 @@ class Att(Layer):
 def load_model():
     dependencies = {'Att': Att()}
     model = tf.keras.models.load_model(
-      '/content/drive/MyDrive/Colab Notebooks/Data Science Trainee JSC/models/best_model.h5',
+      'models/best_model.h5',
       custom_objects=dependencies
     )
     return model
 
 with st.spinner("Loading Model...."):
     model = load_model()
-    with open('/content/drive/MyDrive/Colab Notebooks/Data Science Trainee JSC/models/tokenizer.pickle', 'rb') as handle:
+    with open('models/tokenizer.pickle', 'rb') as handle:
         tokenizer = pickle.load(handle)
     
 # 10 categories of reports
