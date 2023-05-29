@@ -78,20 +78,24 @@ if st.button("Prediksi", use_container_width=True):
       prediction = model.predict(deskripsi, verbose=0)
       classes = np.argmax(prediction, axis = 1)
       pred_class = dict_classes[classes[0]]
+      
       st.write("**Prediksi Kategori Laporan:**")
       df = pd.Series(prediction[0].round(decimals=5) * 100, 
                      index=dict_classes.values()).sort_values(ascending=False)
       df = df.to_frame().reset_index()
       df = df.rename(columns={0: 'probability',
                               'index': 'prediksi_kategori_laporan'})
+      
       for cat, prob in zip(df['prediksi_kategori_laporan'], df['probability']):
         if prob < 5:
           break
         pred = cat + " | " + str(round(prob,2)) + "%"
-        st.button(pred, use_container_width=True)
+        st.success(pred, use_container_width=True)
 
       st.divider() # draw a horizontal line
 
-      st.dataframe(df, use_container_width=True)
+      # st.dataframe(df, use_container_width=True)
+      st.bar_chart(df, x='probability', y='prediksi_kategori_laporan',
+                   use_container_width=True)
   #except:
     #st.write("Ada kesalahan :(")
