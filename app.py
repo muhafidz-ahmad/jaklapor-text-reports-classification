@@ -25,9 +25,9 @@ if st.button("Prediksi Kategori Laporan", use_container_width=True):
     st.divider() # draw a horizontal line
     
     # show preprocessed text
-    with st.section(label="Teks hasil preprocessing"):
+    with st.expander("Teks hasil preprocessing"):
         st.write(preprocess_text)
         
     # show table of all categories
-    with st.section(label="Tabel semua prediksi kategori"):
+    with st.expander("Tabel semua prediksi kategori"):
         st.dataframe(df, use_container_width=True)
