@@ -41,16 +41,19 @@ class Att(Layer):
         context = x * alpha
         return K.sum(context, axis=1)
     
-@st.cache(allow_output_mutation=True)
+#@st.cache(allow_output_mutation=True)
+@st.cache_resource()
 def load_model():
     dependencies = {'Att': Att()}
-    model = tf.keras.models.load_model('models/best_model.h5',
-                                       custom_objects=dependencies)
+    model = tf.keras.models.load_model(
+      '/content/drive/MyDrive/Colab Notebooks/Data Science Trainee JSC/models/best_model.h5',
+      custom_objects=dependencies
+    )
     return model
 
 with st.spinner("Loading Model...."):
     model = load_model()
-    with open('models/tokenizer.pickle', 'rb') as handle:
+    with open('/content/drive/MyDrive/Colab Notebooks/Data Science Trainee JSC/models/tokenizer.pickle', 'rb') as handle:
         tokenizer = pickle.load(handle)
     
 # 10 categories of reports
@@ -60,22 +63,35 @@ labels_list=['gangguan ketenteraman dan ketertiban', 'jalan', 'jaringan listrik'
              'transportasi publik']
 
 # get new report
-new_report = st.text_input("Apa masalah yang mau dilaporkan?","")
+new_report = st.text_area("Ada masalah apa?","")
 
 # predict
+dict_classes = dict(zip(range(len(labels_list)),
+                              labels_list))
+if st.button("Prediksi", use_container_width=True):
+  #try:
+    with st.spinner("Tunggu sebentar, sedang memprediksi kategori laporan..."):
+      preprocess_text = text_preprocessing.preprocess(new_report, stem=True)
+      seq_text = tokenizer.texts_to_sequences([preprocess_text])
+      deskripsi = pad_sequences(seq_text, padding='post',
+                                maxlen=100, truncating='post')
+      prediction = model.predict(deskripsi, verbose=0)
+      classes = np.argmax(prediction, axis = 1)
+      pred_class = dict_classes[classes[0]]
+      st.write("**Prediksi Kategori Laporan:**")
+      df = pd.Series(prediction[0].round(decimals=5) * 100, 
+                     index=dict_classes.values()).sort_values(ascending=False)
+      df = df.to_frame().reset_index()
+      df = df.rename(columns={0: 'probability',
+                              'index': 'prediksi_kategori_laporan'})
+      for cat, prob in zip(df['prediksi_kategori_laporan'], df['probability']):
+        if prob < 5:
+          break
+        pred = cat + " | " + str(round(prob,2)) + "%"
+        st.button(pred, use_container_width=True)
 
-try:
-  st.write("Memprediksi Kategori...")
-  with st.spinner("Tunggu sebentar..."):
-    preprocess_text = text_preprocessing.preprocess(new_report, stem=True)
-    seq_tweet = tokenizer.texts_to_sequences([preprocess_text])
-    deskripsi = pad_sequences(seq_tweet, padding='post',
-                              maxlen=100, truncating='post')
-    prediction = model.predict(deskripsi, verbose=0)
-    classes = np.argmax(prediction, axis = 1)
-    dict_classes = dict(zip(range(len(labels_list)),
-                            labels_list))
-    pred_class = dict_classes[classes[0]]
-    st.write("Prediksi Kategori Laporan:", pred_class)
-except:
-  st.write("Ada kesalahan :(")
+      st.divider() # draw a horizontal line
+
+      st.dataframe(df, use_container_width=True)
+  #except:
+    #st.write("Ada kesalahan :(")
