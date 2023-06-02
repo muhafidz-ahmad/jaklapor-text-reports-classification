@@ -26,7 +26,7 @@ card_style = """
 """
 
 # threshold accuracy
-threshold = 0.1
+threshold = 1
 
 if st.button("Prediksi Kategori Laporan", use_container_width=True):
     with st.spinner("Tunggu sebentar, sedang memprediksi kategori laporan..."):
@@ -45,7 +45,7 @@ if st.button("Prediksi Kategori Laporan", use_container_width=True):
                         <div style="{card_style}">
                             <h3>{row['prediksi_kategori_laporan']}</h3>
                             <p>Akurasi: {round(row['probability'], 2)}%</p>
-                            <p>Deskripsi: "Masukan deskripsi laporan disini"</p>
+                            <p>Deskripsi kategori: "Masukan deskripsi laporan disini"</p>
                         </div>
                     """, unsafe_allow_html=True
                     )
