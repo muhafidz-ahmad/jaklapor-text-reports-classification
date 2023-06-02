@@ -28,7 +28,7 @@ card_style = """
 """
 
 # threshold accuracy
-threshold = 1
+threshold = 5
 
 if st.button("Prediksi Kategori Laporan", use_container_width=True):
     with st.spinner("Tunggu sebentar, sedang memprediksi kategori laporan..."):
