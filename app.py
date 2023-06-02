@@ -34,7 +34,7 @@ if st.button("Prediksi Kategori Laporan", use_container_width=True):
         
         col1, col2 = st.columns(2)
         for index, row in df.iterrows():
-            if row['probabilty'] > threshold:
+            if row['probability'] > threshold:
                 if index % 2 == 0:
                     card_col = col1
                 else:
