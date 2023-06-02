@@ -15,6 +15,7 @@ new_report = st.text_area("Ada masalah apa?","")
 
 # Define the CSS style for the cards
 card_style = """
+    border-color: #F9A0C6;
     border-radius: 10px;
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.15);
     padding: 20px;
