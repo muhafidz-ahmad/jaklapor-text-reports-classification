@@ -25,13 +25,16 @@ card_style = """
     flex-direction: column;
 """
 
+# threshold accuracy
+threshold = 0.1
+
 if st.button("Prediksi Kategori Laporan", use_container_width=True):
     with st.spinner("Tunggu sebentar, sedang memprediksi kategori laporan..."):
         df, preprocess_text = model.predict(my_model, new_report)
         
         col1, col2 = st.columns(2)
         for index, row in df.iterrows():
-            if row.probabilty > 0.1:
+            if row['probabilty'] > threshold:
                 if index % 2 == 0:
                     card_col = col1
                 else:
