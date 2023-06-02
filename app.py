@@ -45,7 +45,7 @@ if st.button("Prediksi Kategori Laporan", use_container_width=True):
                     st.markdown(
                     f"""
                         <div style="{card_style}">
-                            <h3>{upper(row['prediksi_kategori_laporan'])}</h3>
+                            <h3>{row['prediksi_kategori_laporan'].upper()}</h3>
                             <p>Probabilitas: {round(row['probability'], 2)}%</p>
                             <p>Deskripsi: (Masukan deskripsi laporan disini)"</p>
                         </div>
