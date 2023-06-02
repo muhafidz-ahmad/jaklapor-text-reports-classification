@@ -17,10 +17,10 @@ new_report = st.text_area("Ada masalah apa?","")
 card_style = """
     background-color: #f5f5f5;
     border-radius: 10px;
-    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.15);
     padding: 20px;
     margin: 10px;
-    height: 200px;
+    height: auto;
     display: flex;
     flex-direction: column;
 """
@@ -29,25 +29,23 @@ if st.button("Prediksi Kategori Laporan", use_container_width=True):
     with st.spinner("Tunggu sebentar, sedang memprediksi kategori laporan..."):
         df, preprocess_text = model.predict(my_model, new_report)
         
-        col1, col2, col3 = st.columns(3)
+        col1, col2 = st.columns(2)
         for index, row in df.iterrows():
-            if index % 3 == 0:
-                card_col = col1
-            elif index % 3 == 1:
-                card_col = col2
-            else:
-                card_col = col3
-            with card_col:
-                st.markdown(
+            if row.probabilty > 0.1:
+                if index % 2 == 0:
+                    card_col = col1
+                else:
+                    card_col = col2
+                with card_col:
+                    st.markdown(
                     f"""
-                    <div style="{card_style}">
-                        <h3>{row['prediksi_kategori_laporan']}</h3>
-                        <p>Akurasi: {row['probability']}</p>
-                        <p>Deskripsi: [Masukan deskripsi laporan disini]</p>
-                    </div>
-                """,
-                    unsafe_allow_html=True,
-                )
+                        <div style="{card_style}">
+                            <h3>{row['prediksi_kategori_laporan']}</h3>
+                            <p>Akurasi: {round(row['probability'], 2)}%</p>
+                            <p>Deskripsi: "Masukan deskripsi laporan disini"</p>
+                        </div>
+                    """, unsafe_allow_html=True
+                    )
         
     st.divider() # Draw a horizontal line
     
