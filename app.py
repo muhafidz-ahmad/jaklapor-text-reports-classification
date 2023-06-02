@@ -16,8 +16,8 @@ new_report = st.text_area("Ada masalah apa?","")
 # Define the CSS style for the cards
 card_style = """
     border-style: solid;
-    border-width: thick;
-    border-color: #F9A0C6;
+    border-width: 2px;
+    border-color: #FF4B4B;
     border-radius: 10px;
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.15);
     padding: 20px;
@@ -45,9 +45,9 @@ if st.button("Prediksi Kategori Laporan", use_container_width=True):
                     st.markdown(
                     f"""
                         <div style="{card_style}">
-                            <h3>{row['prediksi_kategori_laporan']}</h3>
-                            <p>Akurasi: {round(row['probability'], 2)}%</p>
-                            <p>Deskripsi kategori: "Masukan deskripsi laporan disini"</p>
+                            <h3>{upper(row['prediksi_kategori_laporan'])}</h3>
+                            <p>Probabilitas: {round(row['probability'], 2)}%</p>
+                            <p>Deskripsi: (Masukan deskripsi laporan disini)"</p>
                         </div>
                     """, unsafe_allow_html=True
                     )
