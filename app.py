@@ -59,4 +59,4 @@ if st.button("Prediksi Kategori Laporan", use_container_width=True):
         
     # Show table of all categories
     with st.expander("Tabel semua prediksi kategori"):
-        st.dataframe(df, hide_index=True, use_container_width=True)
+        st.dataframe(df, use_container_width=True)
