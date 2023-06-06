@@ -17,7 +17,7 @@ new_report = st.text_area("Ada masalah apa?","")
 card_style = """
     border-style: solid;
     border-width: 2px;
-    border-color: #FF4B4B;
+    border-color: #F5F5F5;
     border-radius: 10px;
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.15);
     padding: 20px;
@@ -47,7 +47,6 @@ if st.button("Prediksi Kategori Laporan", use_container_width=True):
                         <div style="{card_style}">
                             <h3>{row['prediksi_kategori_laporan'].upper()}</h3>
                             <p>Probabilitas: {round(row['probability'], 2)}%</p>
-                            <p>Deskripsi: (Masukan deskripsi laporan disini)"</p>
                         </div>
                     """, unsafe_allow_html=True
                     )
