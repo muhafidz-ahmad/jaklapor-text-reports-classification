@@ -17,7 +17,7 @@ new_report = st.text_area("Ada masalah apa?","")
 card_style = """
     border-style: solid;
     border-width: 2px;
-    border-color: #F5F5F5;
+    border-color: #959595;
     border-radius: 10px;
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.15);
     padding: 20px;
@@ -28,7 +28,7 @@ card_style = """
 """
 
 # threshold accuracy
-threshold = 5
+threshold = 10
 
 if st.button("Prediksi Kategori Laporan", use_container_width=True):
     with st.spinner("Tunggu sebentar, sedang memprediksi kategori laporan..."):
@@ -59,4 +59,4 @@ if st.button("Prediksi Kategori Laporan", use_container_width=True):
         
     # Show table of all categories
     with st.expander("Tabel semua prediksi kategori"):
-        st.dataframe(df, use_container_width=True)
+        st.dataframe(df, hide_index=True, use_container_width=True)
